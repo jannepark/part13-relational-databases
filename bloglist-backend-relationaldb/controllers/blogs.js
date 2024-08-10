@@ -4,6 +4,7 @@ const RequestFieldError = require('../middlewares/requestFieldError')
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../util/config')
 const { User } = require('../models')
+const { Op } = require('sequelize')
 
 const blogFinder = async (req, res, next) => {
     try {
@@ -38,12 +39,23 @@ const tokenExtractor = (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
+
+        const where = {}
+        if (req.query.search) {
+            where[Op.or] = [
+                { title: { [Op.iLike]: `%${req.query.search}%` } },
+                { author: { [Op.iLike]: `%${req.query.search}%` } }
+            ]
+        }
+
         const blogs = await Blog.findAll({
             attributes: { exclude: ['userId'] },
             include: {
                 model: User,
                 attributes: ['name']
-            }
+            },
+            where,
+            order: [['likes', 'DESC']]
         })
         console.log(JSON.stringify(blogs, null, 2))
         res.json(blogs)

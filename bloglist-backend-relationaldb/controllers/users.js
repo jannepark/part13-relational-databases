@@ -32,8 +32,6 @@ router.get('/:id', async (req, res) => {
 })
 
 router.put('/:username', async (req, res) => {
-    console.log('usernaem: ', req.params.username)
-    // find the user with the given username and update their name with the new name from the request body
     const user = await User.findOne({ where: { username: req.params.username } })
     if (user) {
         console.log('user: ', user)
