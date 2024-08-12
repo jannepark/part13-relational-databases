@@ -2,11 +2,11 @@
 @port = 3001
 @host = {{hostname}}:{{port}}
 
-@id = 3
+@id = 1
 
 @username = testi
 
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAZW1haWwuY29tIiwiaWQiOjMsImlhdCI6MTcyMjk2Njk2MH0.oOQ2drzBMYj08233VS3bxxWXTuwTLy5n6jzAxfHjX28
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hdHRpQGVtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE3MjMzOTE0ODd9.SQsLAMfKHFk2fXjy8E6wHmXOB81nIfLSnflNIfKSNyo
 
 
  
@@ -24,16 +24,21 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "author": "new author", 
+    "author": "mattijateppo", 
     "url": "url.com",
-    "title": "new title",
-    "likes": 1
+    "title": "ei onnaa",
+    "likes": 5,
+    "year": "2000"
 }
 
-### Get todo with id
+### get authors with count of blogs and sum of likes
+GET http://{{host}}/api/authors
+Content-Type: application/json
+
+### Get blog with id
 GET http://{{host}}/api/blogs/{{id}}
  
-### update todo with id
+### update blog with id
 PUT http://{{host}}/api/blogs/{{id}}
 Content-Type: application/json
 
@@ -41,7 +46,7 @@ Content-Type: application/json
     "likes": "50"
 }
 
-### delete todo with id
+### delete blog with id
 DELETE http://{{host}}/api/blogs/{{id}}
 Content-Type: application/json
 Authorization: {{token}}
@@ -54,8 +59,8 @@ POST http://{{host}}/api/users
 Content-Type: application/json
 
 {
-    "username": "test@email.com", 
-    "name": "testi ukko",
+    "username": "matti@email.com", 
+    "name": "matti teppo",
     "password": "password"
 }
 
@@ -67,17 +72,26 @@ PUT http://{{host}}/api/users/{{username}}
 Content-Type: application/json
 
 {
-    "username": "test1@email.com"
+    "username": "test1@email.com" 
 }
+
 
 ### login user
 POST http://{{host}}/api/login
 Content-Type: application/json
 
 {
-    "username": "test@email.com", 
+    "username": "matti@email.com", 
     "password": "secret"
 }
 
+### add blog to users reading_list
+POST http://{{host}}/api/readinglists
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "blogId": 1
+}
 
 
